@@ -18,14 +18,22 @@
           "options": {
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
+
+"assets": [
+  {
+    "glob": "**/*",
+    "input": "public"
+  },
+  "src/assets",
+  "src/favicon.ico"
+],
+
             "styles": [
-              "src/styles.css"
+             
+              "src/assets/plugins/bootstrap/css/bootstrap.min.css",
+              "src/assets/css/style.css",
+              "src/assets/css/colors/default-dark.css"
+
             ]
           },
           "configurations": {
