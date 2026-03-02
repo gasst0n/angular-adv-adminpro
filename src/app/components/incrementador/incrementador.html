@@ -1,0 +1,31 @@
+<div class="input-group">
+  <button
+    type="button"
+    [class]="computedBtnClass"
+    (click)="inc(-step)"
+    [disabled]="disabled || value <= min"
+    aria-label="Restar {{step}}">
+    <i class="fa fa-minus"></i>
+  </button>
+
+  <input
+    type="number"
+    class="form-control text-center"
+    placeholder="Progreso"
+    [attr.min]="min"
+    [attr.max]="max"
+    [value]="value"
+    [disabled]="disabled"
+    (input)="onInput($any($event.target).value)"
+    (change)="onchange($event)"
+    [class.is-invalid]="value > max || value < min" />
+
+  <button
+    type="button"
+    [class]="computedBtnClass"
+    (click)="inc(step)"
+    [disabled]="disabled || value >= max"
+    aria-label="Sumar {{step}}">
+    <i class="fa fa-plus"></i>
+  </button>
+</div>

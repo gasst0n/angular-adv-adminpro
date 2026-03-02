@@ -1,1 +1,53 @@
-<p>progress works!</p>
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card"><div class="card-body">
+        <h4 class="card-title">Striped Progress bar</h4>
+
+        <div class="progress mt-3" style="height:5px;">
+          <div class="progress-bar bg-primary progress-bar-striped active"
+               role="progressbar"
+               [style.width.%]="progreso">
+          </div>
+        </div>
+
+        <div class="progress mt-3" style="height:5px;">
+          <div class="progress-bar bg-info progress-bar-striped active"
+               role="progressbar"
+               [style.width.%]="progreso2">
+          </div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="row mt-3 g-3">
+    <div class="col-12 col-md-6">
+      <div class="card"><div class="card-body">
+        <!-- Incrementador 1 (independiente) -->
+        <app-incrementador
+          [(ngModel)]="progreso"
+          [min]="0"
+          [max]="100"
+          [step]="5"
+          btnClass="btn-primary">
+        </app-incrementador>
+      </div></div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <div class="card"><div class="card-body">
+        <!-- Incrementador 2 (independiente) -->
+        <app-incrementador
+          [(ngModel)]="progreso2"
+          [min]="0"
+          [max]="100"
+          [step]="5"
+          btnClass="btn-info">
+        </app-incrementador>
+      </div></div>
+    </div>
+  </div>
+</div>
