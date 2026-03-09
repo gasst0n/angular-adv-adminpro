@@ -5,57 +5,132 @@
   <title>AdminPRO - TEST</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-      <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/favicon.png">
 
-    <!-- Bootstrap Core CSS -->
-    <link href="./assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="./assets/css/style.css" rel="stylesheet">
-    <!-- You can change the theme colors from here -->
-    <link href="./assets/css/colors/default-dark.css" id="theme" rel="stylesheet">
+  <!-- Favicon icon -->
+  <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/favicon.png">
 
-
+  <!-- Bootstrap Core CSS -->
+  <link href="./assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="./assets/css/style.css" rel="stylesheet">
+  <!-- You can change the theme colors from here -->
+  <link href="./assets/css/colors/purple-dark.css" id="theme" rel="stylesheet">
 </head>
+
+<script>
+document.addEventListener("click", function(e) {
+  if (e.target.closest(".sidebartoggler")) {
+    document.getElementById("main-wrapper")
+      .classList.toggle("mini-sidebar");
+  }
+});
+</script>
+
 <body class="fix-header card-no-border fix-sidebar">
 
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
-    <div class="preloader">
-        <div class="loader">
-            <div class="loader__figure"></div>
-            <p class="loader__label">Admin Pro v2</p>
-        </div>
+  <!-- ============================================================== -->
+  <!-- Preloader - style you can find in spinners.css -->
+  <!-- ============================================================== -->
+  <div class="preloader">
+    <div class="loader">
+      <div class="loader__figure"></div>
+      <p class="loader__label">Admin Pro v2</p>
     </div>
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
-
+  </div>
+  <!-- ============================================================== -->
+  <!-- Main wrapper - style you can find in pages.scss -->
+  <!-- ============================================================== -->
 
   <app-root></app-root>
 
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    <script src="./assets/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="./assets/plugins/bootstrap/js/popper.min.js"></script>
-    <script src="./assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="./assets/js/perfect-scrollbar.jquery.min.js"></script>
-    <!--Wave Effects -->
-    <script src="./assets/js/waves.js"></script>
-    <!--Menu sidebar -->
-    <script src="./assets/js/sidebarmenu.js"></script>
-    <!--stickey kit -->
-    <script src="./assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
-    <script src="./assets/plugins/sparkline/jquery.sparkline.min.js"></script>
-    <!--Custom JavaScript -->
-    <script src="./assets/js/custom.min.js"></script>
-    <!-- ============================================================== -->
-    <!-- Style switcher -->
-    <!-- ============================================================== -->
-    <script src="./assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+  <!-- All Jquery -->
+  <!-- ============================================================== -->
+  <script src="./assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap tether Core JavaScript -->
+  <script src="./assets/plugins/bootstrap/js/popper.min.js"></script>
+  <script src="./assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+  <!-- slimscrollbar scrollbar JavaScript -->
+  <script src="./assets/js/perfect-scrollbar.jquery.min.js"></script>
+  <!--Wave Effects -->
+  <script src="./assets/js/waves.js"></script>
+  <!-- Menu sidebar (define $.fn.AdminMenu) -->
+  <script src="./assets/js/sidebarmenu.js"></script>
+  <!--stickey kit -->
+  <script src="./assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+  <script src="./assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+  <!--Custom JavaScript -->
+  <script src="./assets/js/custom.js"></script>
+
+
+<!--  -->
+  <!-- 🔧 Inicialización robusta de AdminMenu (reintenta hasta que Angular pinte el sidebar) -->
+  <script>
+    (function initAdminMenuAfterAngular(attempts) {
+      function tryInit() {
+        if (!window.jQuery) return false;                 // jQuery aún no listo
+        if (typeof $.fn.AdminMenu !== 'function') return false; // sidebarmenu.js aún no definió el plugin
+
+        var $nav = $('#sidebarnav');                      // tu <ul id="sidebarnav">
+        if (!$nav.length) return false;                   // Angular todavía no lo renderizó
+
+        try {
+          // ⚠️ Bootstrap 4/5 usan "show" en lugar de "in". Ajustamos la clase abierta:
+          $nav.AdminMenu({
+            collapseInClass: 'show',   // en lugar de 'in'
+            // Opcionales (van con los defaults):
+            // toggle: true,
+            // preventDefault: true,
+            // activeClass: 'active',
+            // collapseClass: 'collapse',
+            // collapsingClass: 'collapsing',
+            // triggerElement: 'a',
+            // parentTrigger: 'li',
+            // subMenu: 'ul'
+          });
+          return true;
+        } catch (e) {
+          console.error('[AdminPro] Error inicializando AdminMenu:', e);
+          return false;
+        }
+      }
+
+      if (!tryInit() && attempts > 0) {
+        setTimeout(function () { initAdminMenuAfterAngular(attempts - 1); }, 150);
+      }
+    })(20); // 20 intentos x 150ms ≈ 3s de ventana de render Angular
+  </script>
+
+  <!-- 🛟 Parche opcional si un overlay del header tapa el lateral (activar sólo si ves que no recibe el click) -->
+  <!--
+  <style>
+    .left-sidebar, .scroll-sidebar, .sidebar-nav {
+      position: relative !important;
+      z-index: 5000 !important;
+    }
+  </style>
+  -->
+
+<script>
+  // Inicializá con delegación o después de que Angular ya renderizó el UL
+  $(document).on('click', '#themecolors a', function(e){
+    e.preventDefault();
+    var cur = $(this).attr('data-theme');
+    $('#theme').attr('href', './assets/css/colors/' + cur + '.css');
+    $('#themecolors a').removeClass('working');
+    $(this).addClass('working');
+    try { localStorage.setItem('adminpro-theme', cur); } catch(e){}
+  });
+
+  // Restaurar guardado
+  $(function(){
+    var saved = localStorage.getItem('adminpro-theme');
+    if (saved) {
+      $('#theme').attr('href', './assets/css/colors/' + saved + '.css');
+      $('#themecolors a[data-theme="'+saved+'"]').addClass('working');
+    }
+  });
+</script>
+``
 
 
 </body>

@@ -49,3 +49,5 @@ $('#themecolors').on('click', 'a', function(){
         $(this).addClass('working')
       });
 });
+
+$('body').attr('data-theme', currentStyle);

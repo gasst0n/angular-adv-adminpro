@@ -4,6 +4,9 @@ Author: Wrappixel
 Email: niravjoshi87@gmail.com
 File: js
 */
+
+const customInitFuncionts = () => {
+
 $(function() {
     "use strict";
     $(function() {
@@ -155,3 +158,9 @@ $(function() {
     });
 
 });
+
+
+}
+// Customizacion para reiniciar custom.js
+
+customInitFuncionts();

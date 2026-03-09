@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-nopagefound',
-  imports: [],
+  imports: [FormsModule],
     standalone:true,
 
   templateUrl: './nopagefound.html',

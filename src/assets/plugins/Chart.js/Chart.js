@@ -7,6 +7,7 @@
  * Released under the MIT license
  * https://github.com/nnnick/Chart.js/blob/master/LICENSE.md
  */
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
 
 (function(){
@@ -3475,3 +3476,4 @@
 
 
 }).call(this);
+

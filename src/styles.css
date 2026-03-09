@@ -1,9 +1,13 @@
- 
- 
- 
+/* 
+.left-sidebar, .scroll-sidebar, .sidebar-nav {
+  position: relative;
+  z-index: 2000;
+} */
+
  .fast {
     -webkit-animation-duration:0.3s;
     animation-duration:0.3s;
     -webkit-animation-fill-mode:both;
     animation-fill-mode:both;
 }
+
