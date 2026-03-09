@@ -8,7 +8,7 @@ import { SidebarService, SidebarMenuSection } from '../../services/sidebar.servi
   standalone: true,
   templateUrl: './sidebar.html',
   styles: ``,
-  imports: [RouterLink, RouterLinkActive, NgFor, NgIf],
+  imports: [RouterLink, RouterLinkActive, NgFor],
 })
 export class Sidebar {
   menuItems: SidebarMenuSection[] = [];
