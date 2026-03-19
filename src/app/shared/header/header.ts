@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Usuario } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-header',
@@ -9,4 +10,11 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styles: ``,
   imports:[RouterLink, RouterLinkActive]
 })
-export class Header {}
+export class Header {
+constructor (private usuarioService: Usuario){}
+
+logout() {
+  this.usuarioService.logout()
+}
+
+}

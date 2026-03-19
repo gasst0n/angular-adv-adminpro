@@ -6,12 +6,15 @@ import { Progress } from "./progress/progress";
 import { AccountSettings } from "./account-settings/account-settings";
 import { Promesas } from "./promesas/promesas";
 import { Rxjs } from "./rxjs/rxjs";
+import { AuthGuard } from "../guards/auth-guard";
 
 export const PAGES_ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
   {
     path: 'dashboard',
     component: Pages, // debe contener <router-outlet>
+    canActivate: [AuthGuard
+    ],
     children: [
       { path: '', component: Dashboard, data: {titulo: 'Dashboard'} },                 // /dashboard
       { path: 'progress', component: Progress, data: {titulo: 'Progress'}  },          // /dashboard/progress

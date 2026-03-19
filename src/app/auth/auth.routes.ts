@@ -2,6 +2,7 @@
 import { Routes } from '@angular/router';
 import { Login } from './login/login';         // standalone component
 import { Register } from './register/register'; // standalone component
+import { ReactiveFormsModule } from '@angular/forms';
 
 // (Opcional) guest guard para bloquear si ya está logueado
 

@@ -6078,3 +6078,7 @@ body[data-theme="red"] .topbar {
 .theme-dark .navbar-brand .light-logo {
   display: inline-block !important;
 }
+
+.cursor {
+  cursor: pointer;
+}
