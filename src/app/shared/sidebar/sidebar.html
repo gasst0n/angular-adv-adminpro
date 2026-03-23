@@ -12,13 +12,15 @@
           <a class="has-arrow waves-effect waves-dark"
              href="javascript:void(0)"
              aria-expanded="false">
-            <img src="assets/images/users/profile.png" alt="user" />
-            <span class="hide-menu">Gastón Godoy</span>
+            <img [src]="usuario.imagenURL" (error)="onImgError($event)" referrerpolicy="no-referrer" alt="user" />
+            <span class="hide-menu">{{usuario.nombre}}</span>
           </a>
 
           <!-- Submenú del perfil -->
           <ul aria-expanded="false" class="collapse">
-            <li><a href="javascript:void(0)">My Profile</a></li>
+            <li><a routerLink="/dashboard/perfil"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">Mi Perfil</a></li>
             <li><a href="javascript:void(0)">My Balance</a></li>
             <li><a href="javascript:void(0)">Inbox</a></li>
 
