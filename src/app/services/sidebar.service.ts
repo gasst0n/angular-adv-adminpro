@@ -24,11 +24,18 @@ export class SidebarService {
         { titulo: 'Gráficas',    url: '/dashboard/grafica1' },
         { titulo: 'Promesas',    url: '/dashboard/promesas' },
         { titulo: 'Rxjs',    url: '/dashboard/rxjs' },
+      ]
+    },
 
-
-
-        // { titulo: 'Account',     url: '/dashboard/account-settings' },
+    {
+      titulo: 'Mantenimiento',
+      icono: 'mdi mdi-folder-lock-open',
+      submenu: [
+        { titulo: 'Usuarios',        url: 'usuarios' },
+        { titulo: 'Hospitales', url: 'hospitales' },
+        { titulo: 'Medicos',    url: 'medicos' },
       ]
     }
+
   ];
 }

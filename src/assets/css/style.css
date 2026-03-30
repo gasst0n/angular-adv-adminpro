@@ -6088,3 +6088,16 @@ body[data-theme="red"] .topbar {
   width: 200px;
   height: 200px
 }
+
+/* AdminPRO fixes */
+.preloader,
+.overlay,
+.spinner,
+.loading {
+  pointer-events: none !important;
+}
+
+.avatar {
+  border-radius: 100%;
+  width: 50px;
+}

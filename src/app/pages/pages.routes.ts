@@ -8,6 +8,7 @@ import { Promesas } from "./promesas/promesas";
 import { Rxjs } from "./rxjs/rxjs";
 import { AuthGuard } from "../guards/auth-guard";
 import { Perfil } from "./perfil/perfil";
+import { Usuarios } from "./mantenimiento/usuarios/usuarios";
 
 export const PAGES_ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -24,6 +25,11 @@ export const PAGES_ROUTES: Routes = [
       { path: 'promesas', component: Promesas, data: {titulo: 'Promesas'} },          // /dashboard/grafica1
       { path: 'rxjs', component: Rxjs, data: {titulo: 'RXJS'} },          // /dashboard/grafica1
       { path: 'perfil', component: Perfil, data: {titulo: 'Perfil'} },          // /dashboard/grafica1
+      
+      // Mantenimiento
+
+      { path: 'usuarios', component: Usuarios, data: {titulo: 'Usuario de Aplicación'} },          // /dashboard/grafica1
+
 
       // Si usás estos en el menú, creá sus componentes y descomentalos:
       // { path: 'analytical', component: Analytical },

@@ -1,0 +1,41 @@
+<div *ngIf="open" class="modal-backdrop-custom" (click)="cerrarModal()">
+  <div
+    class="modal show custom-modal"
+    role="dialog"
+    aria-modal="true"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- HEADER -->
+        <div class="modal-header">
+          <h4 class="modal-title">Cargar Imagen</h4>
+          <button class="close" (click)="cerrarModal()">×</button>
+        </div>
+
+        <!-- BODY -->
+        <div class="modal-body">
+          <input
+            type="file"
+            accept="image/*"
+            class="form-control"
+            (change)="cambiarImagen($event)"
+          />
+
+          <!-- ✅ PREVIEW CORRECTO -->
+          <div *ngIf="imgTemp || imagenActualUrl" class="mt-3 text-center">
+            <img [src]="imgTemp || imagenActualUrl" class="preview-img" />
+          </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="modal-footer">
+          <button class="btn btn-danger" (click)="cerrarModal()">Cancelar</button>
+          <button class="btn btn-primary" [disabled]="!imagenSubir" (click)="subirImagen()">
+            Actualizar Foto
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,10 +1,13 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { NgIf } from '@angular/common';
+
 import { UsuarioModel } from '../../models/usuario.model';
 import { Usuario } from '../../services/usuario.service';
 import { FileUpload } from '../../services/file-upload.service';
-import { NgIf } from '@angular/common'; // necesario para *ngIf
+
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,10 +15,8 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [ReactiveFormsModule, NgIf],
   templateUrl: './perfil.html',
-  styles: ``
 })
 export class Perfil implements OnInit, OnDestroy {
-
   public perfilForm!: FormGroup;
   public usuario!: UsuarioModel;
   public imgTemp: string | null = null;
@@ -26,16 +27,17 @@ export class Perfil implements OnInit, OnDestroy {
     private fb: FormBuilder,
     public usuarioService: Usuario,
     private fileUploadService: FileUpload,
-    private cdr: ChangeDetectorRef // 🔹 inyectamos ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
     this.perfilForm = this.fb.group({
       nombre: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
     });
 
-    this.usuarioSub = this.usuarioService.usuario$.subscribe(usuarioData => {
+    this.usuarioSub = this.usuarioService.usuario$.subscribe((usuarioData) => {
       if (!usuarioData) return;
 
       this.usuario = new UsuarioModel(
@@ -45,70 +47,72 @@ export class Perfil implements OnInit, OnDestroy {
         usuarioData.img,
         usuarioData.google,
         usuarioData.role,
-        usuarioData.uid
+        usuarioData.uid,
       );
 
       this.perfilForm.setValue({
         nombre: this.usuario.nombre,
-        email: this.usuario.email
+        email: this.usuario.email,
       });
     });
   }
 
-  actualizarPerfil() {
+  actualizarPerfil(): void {
     if (this.perfilForm.invalid) return;
 
-    this.usuarioService.actualizarPerfil(this.perfilForm.value)
-      .subscribe(() => {
-        console.log('Perfil actualizado correctamente');
-        Swal.fire('Guardado','Cambios fueron guardados', 'success')
-        setTimeout(() => window.location.reload(), 3000);
-      }, (err) => {
-        Swal.fire('Error',err.error.msg, 'error')
-        console.log(err)
-      });
+    this.usuarioService.actualizarPerfil(this.perfilForm.value).subscribe({
+      next: () => {
+        Swal.fire('Guardado', 'Cambios fueron guardados', 'success').then(() => {
+          this.reiniciarVista();
+        });
+      },
+      error: (err) => {
+        Swal.fire('Error', err.error?.msg || 'Error al actualizar', 'error');
+      },
+    });
   }
 
-  cambiarImagen(event: Event) {
+  cambiarImagen(event: Event): void {
     const target = event.target as HTMLInputElement;
-
     if (!target.files || target.files.length === 0) return;
 
     this.imagenSubir = target.files[0];
 
     const reader = new FileReader();
-
     reader.onload = () => {
-      // 🔹 asignamos imgTemp y forzamos detección de cambios
       this.imgTemp = reader.result as string;
-      this.cdr.detectChanges(); // 🔹 fuerza que Angular actualice la vista
+      this.cdr.detectChanges();
     };
 
     reader.readAsDataURL(this.imagenSubir);
   }
 
-  subirImagen() {
-    if (!this.imagenSubir) return;
+  subirImagen(): void {
+    if (!this.imagenSubir || !this.usuario?.uid) return;
 
-    const uid = this.usuario.uid;
-    if (!uid) return console.error('El usuario no tiene UID definido');
-
-    this.fileUploadService.actualizarFoto(this.imagenSubir, 'usuarios', uid)
-      .then(resp => {
-        console.log('Imagen subida correctamente', resp);
+    this.fileUploadService
+      .actualizarFoto(this.imagenSubir, 'usuarios', this.usuario.uid)
+      .then((resp) => {
         this.usuario.img = resp.img;
         this.imgTemp = null;
-        Swal.fire('Cambio realizado','Foto de perfil actualizada', 'success')
-        setTimeout(() => window.location.reload(), 3000)
-       
-        }).catch(err => {
-          console.log(err)
-        Swal.fire('Error','No se pudo subir la imagen', 'error')
 
+        Swal.fire('Cambio realizado', 'Foto de perfil actualizada', 'success').then(() => {
+          this.reiniciarVista();
+        });
+      })
+      .catch(() => {
+        Swal.fire('Error', 'No se pudo subir la imagen', 'error');
       });
+  }
+
+  private reiniciarVista(): void {
+    this.router
+      .navigateByUrl('/', { skipLocationChange: true })
+      .then(() => this.router.navigate(['/perfil']));
   }
 
   ngOnDestroy(): void {
     this.usuarioSub.unsubscribe();
   }
 }
+``;
