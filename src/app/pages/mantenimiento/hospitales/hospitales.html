@@ -1,0 +1,117 @@
+<div class="row animated fadeIn fast">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <!-- Input para búsqueda futura -->
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Buscar hospital ..."
+          #txtTermino
+          (keyup)="buscar(txtTermino.value)"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Se muestra mientras cargan los hospitales -->
+<div class="row animated fadeIn fast" *ngIf="cargando">
+  <div class="col-12">
+    <div class="alert alert-info text-center">
+      <h4 class="alert-heading">Cargando</h4>
+      <i class="fa fa-spin fa-refresh fa-2x"></i>
+      <p class="mb-0">Por favor espere</p>
+    </div>
+  </div>
+</div>
+
+<!-- Se muestra cuando termina la carga -->
+<div class="row" *ngIf="!cargando">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-8">
+            <!-- Cantidad total de hospitales -->
+            <h4 class="card-title">Total de Hospitales: {{ hospitales.length }}</h4>
+            <h6 class="card-subtitle">Hospitales registrados</h6>
+          </div>
+
+          <div class="col">
+            <div class="text-right">
+              <button class="btn btn-primary" (click)="abrirSweetAlert()">
+                <i class="fa fa-hospital-o"></i> Crear Hospital
+              </button>
+            </div>
+            <br />
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <!-- Tu objeto no trae img, por eso mostramos el ID -->
+                <th class="w100">Foto</th>
+                <th>Nombre</th>
+                <th class="w100 text-nowrap">Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <!-- Recorre todos los hospitales -->
+              <tr *ngFor="let hospital of hospitales">
+                <!-- Muestra el _id recibido desde el backend -->
+                <td class="text-center">
+                  <!-- {{ hospital.img ?? '' | imagen: 'hospitales' }} -->
+
+                  <img
+                    [src]="hospital.img ?? '' | imagen: 'hospitales'"
+                    [alt]="hospital.nombre"
+                    class="avatar cursor"
+                    (click)="abrirModal(hospital)"
+                  />
+                </td>
+
+                <td>
+                  <!-- Muestra y permite editar el nombre -->
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Ingrese nombre del hospital"
+                    [(ngModel)]="hospital.nombre"
+                  />
+                </td>
+
+                <td class="text-nowrap">
+                  <a
+                    (click)="guardarCambios(hospital)"
+                    data-toggle="tooltip"
+                    class="cursor"
+                    data-original-title="Guardar cambios"
+                  >
+                    <i class="fa fa-pencil text-inverse m-r-10"></i>
+                  </a>
+
+                  <a
+                    (click)="eliminarHospital(hospital)"
+                    data-toggle="tooltip"
+                    class="cursor"
+                    data-original-title="Borrar"
+                  >
+                    <i class="fa fa-close text-danger"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <button class="btn btn-secondary">Siguientes</button>
+        &nbsp;
+        <button class="btn btn-secondary">Anteriores</button>
+      </div>
+    </div>
+  </div>
+</div>

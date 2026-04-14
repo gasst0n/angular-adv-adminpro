@@ -114,13 +114,10 @@ export class Usuarios implements OnInit, OnDestroy {
       return;
     }
 
-    this.busquedasService.buscar('usuarios', termino).subscribe((resultados) => {
-      this.usuarios = resultados.map(
-        (u) => new UsuarioModel(u.nombre, u.email, u.password, u.img, u.google, u.role, u.uid),
-      );
+    this.busquedasService.buscar<UsuarioModel>('usuarios', termino).subscribe((usuarios) => {
+      this.usuarios = usuarios;
     });
   }
-
   /* =========================================
      Eliminar usuario
   ========================================= */
