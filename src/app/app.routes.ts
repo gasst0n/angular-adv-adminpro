@@ -4,13 +4,14 @@ import { Register } from './auth/register/register';
 import { Nopagefound } from './pages/nopagefound/nopagefound';
 
 export const routes: Routes = [
+  { path: '', redirectTo: 'login', pathMatch: 'full' }, // 👈 AGREGAR ESTO
   { path: 'login', component: Login },
+
   { path: 'register', component: Register },
 
   {
     path: '',
-    loadChildren: () =>
-      import('./pages/pages.routes').then(m => m.PAGES_ROUTES),
+    loadChildren: () => import('./pages/pages.routes').then((m) => m.PAGES_ROUTES),
   },
 
   { path: '**', component: Nopagefound },

@@ -6,6 +6,7 @@ import { Sidebar } from '../shared/sidebar/sidebar';
 import { Breadcrumbs } from '../shared/breadcrumbs/breadcrumbs';
 import { SettingsService } from '../services/settings'; // <- tu servicio settings.ts
 import { ModalImagen } from '../components/modal-imagen/modal-imagen';
+import { SidebarService } from '../services/sidebar.service';
 
 declare function customInitFuncionts(): void;
 
@@ -16,10 +17,14 @@ declare function customInitFuncionts(): void;
   templateUrl: './pages.html',
 })
 export class Pages implements OnInit, AfterViewInit {
-  constructor(private settings: SettingsService) {}
+  constructor(
+    private settings: SettingsService,
+    private sidebarService: SidebarService,
+  ) {}
 
   ngOnInit(): void {
     customInitFuncionts();
+    this.sidebarService.cargarMenu();
     // Inicializa: limpia links extra, crea/obtiene #theme, aplica saved/default, marca working
     this.settings.init('default'); // o 'default-dark'
   }

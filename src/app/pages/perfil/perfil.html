@@ -1,19 +1,13 @@
-<div class="row">
-
+<div class="row animated fadeIn fast">
   <!-- 🔹 COLUMNA FORMULARIO -->
   <div class="col-lg-6">
     <div class="card">
       <div class="card-body">
-
         <h4 class="card-title">Mi perfil de usuario</h4>
         <h6 class="card-subtitle">Ajustes</h6>
 
         <!-- 🔥 IMPORTANTE: usar ngSubmit (Angular) -->
-        <form 
-          class="form p-t-20" 
-          [formGroup]="perfilForm" 
-          (ngSubmit)="actualizarPerfil()">
-
+        <form class="form p-t-20" [formGroup]="perfilForm" (ngSubmit)="actualizarPerfil()">
           <!-- 🔹 NOMBRE -->
           <div class="form-group">
             <label for="nombre">Usuario</label>
@@ -23,12 +17,13 @@
                 <i class="ti-user"></i>
               </div>
 
-              <input 
+              <input
                 type="text"
                 id="nombre"
                 class="form-control"
                 placeholder="Ingrese su usuario"
-                formControlName="nombre">
+                formControlName="nombre"
+              />
             </div>
           </div>
 
@@ -41,33 +36,32 @@
                 <i class="ti-email"></i>
               </div>
 
-              <input 
+              <input
                 type="email"
                 id="email"
                 class="form-control"
                 placeholder="Ingrese su email"
                 formControlName="email"
-                [readOnly]="usuario.google">
+                [readOnly]="usuario.google"
+              />
             </div>
           </div>
 
           <!-- 🔥 BOTÓN GUARDAR -->
           <!-- 👉 ÚNICO submit del formulario -->
-          <button 
+          <button
             type="submit"
             class="btn btn-success btn-block waves-effect waves-light m-r-10"
-            [disabled]="perfilForm.invalid">
+            [disabled]="perfilForm.invalid"
+          >
             Aceptar
           </button>
 
           <!-- 🔥 BOTÓN CANCELAR -->
           <!-- 👉 IMPORTANTE: type="button" para NO disparar submit -->
-          <button 
-            type="button"
-            class="btn btn-inverse btn-block waves-effect waves-light">
+          <button type="button" class="btn btn-inverse btn-block waves-effect waves-light">
             Cancelar
           </button>
-
         </form>
       </div>
     </div>
@@ -77,57 +71,56 @@
   <div class="col-lg-6">
     <div class="card">
       <div class="card-body">
-
         <h4 class="card-title">Avatar</h4>
         <h6 class="card-subtitle">Imagen del usuario</h6>
 
-<!-- Contenedor -->
-<div class="row justify-content-center text-center">
+        <!-- Contenedor -->
+        <div class="row justify-content-center text-center">
+          <!-- ⬇️ Cuando NO hay imgTemp: una sola columna centrada -->
+          <ng-container *ngIf="!imgTemp; else conPreview">
+            <div class="col-12 d-flex justify-content-center">
+              <div class="preview-box">
+                <img [src]="usuario.imagenURL" class="img-avatar" alt="Avatar Usuario" />
+                <p class="mt-2"><strong>Imagen actual</strong></p>
+              </div>
+            </div>
+          </ng-container>
 
-  <!-- ⬇️ Cuando NO hay imgTemp: una sola columna centrada -->
-  <ng-container *ngIf="!imgTemp; else conPreview">
-    <div class="col-12 d-flex justify-content-center">
-      <div class="preview-box">
-        <img [src]="usuario.imagenURL" class="img-avatar" alt="Avatar Usuario">
-        <p class="mt-2"><strong>Imagen actual</strong></p>
-      </div>
-    </div>
-  </ng-container>
+          <!-- ⬇️ Cuando SÍ hay imgTemp: dos columnas -->
+          <ng-template #conPreview>
+            <div class="col-12 col-md-6 d-flex justify-content-center mb-3 mb-md-0">
+              <div class="preview-box">
+                <img [src]="usuario.imagenURL" class="img-avatar" alt="Avatar Usuario" />
+                <p class="mt-2"><strong>Imagen actual</strong></p>
+              </div>
+            </div>
 
-  <!-- ⬇️ Cuando SÍ hay imgTemp: dos columnas -->
-  <ng-template #conPreview>
-    <div class="col-12 col-md-6 d-flex justify-content-center mb-3 mb-md-0">
-      <div class="preview-box">
-        <img [src]="usuario.imagenURL" class="img-avatar" alt="Avatar Usuario">
-        <p class="mt-2"><strong>Imagen actual</strong></p>
-      </div>
-    </div>
+            <div class="col-12 col-md-6 d-flex justify-content-center">
+              <div class="preview-box">
+                <img [src]="imgTemp" class="img-avatar" alt="Preview Imagen" />
+                <p class="mt-2"><strong>Imagen nueva</strong></p>
+              </div>
+            </div>
+          </ng-template>
+        </div>
 
-    <div class="col-12 col-md-6 d-flex justify-content-center">
-      <div class="preview-box">
-        <img [src]="imgTemp" class="img-avatar" alt="Preview Imagen">
-        <p class="mt-2"><strong>Imagen nueva</strong></p>
-      </div>
-    </div>
-  </ng-template>
-</div>
-
-<br>
+        <br />
 
         <!-- 🔹 INPUT FILE -->
-        <input type="file" (change)="cambiarImagen($event)">
+        <input type="file" (change)="cambiarImagen($event)" />
 
-        <br><br>
+        <br /><br />
 
         <!-- 🔹 BOTÓN CAMBIAR IMAGEN -->
-        <button 
+        <button
           type="button"
-          class="btn btn-success btn-block waves-effect waves-light m-r-10" [disabled]="!imagenSubir" (click)="subirImagen()">
+          class="btn btn-success btn-block waves-effect waves-light m-r-10"
+          [disabled]="!imagenSubir"
+          (click)="subirImagen()"
+        >
           Cambiar Imagen
         </button>
-
       </div>
     </div>
   </div>
-
 </div>

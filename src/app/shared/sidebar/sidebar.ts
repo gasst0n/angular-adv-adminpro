@@ -16,16 +16,15 @@ const base_url = enviroment.base_url;
   imports: [RouterLink, RouterLinkActive, NgFor],
 })
 export class Sidebar {
-
   public usuario!: UsuarioModel;
   menuItems: SidebarMenuSection[] = [];
 
   constructor(
-    private sidebarService: SidebarService,
-    private usuarioService: Usuario
+    public sidebarService: SidebarService,
+    private usuarioService: Usuario,
   ) {
     this.usuario = this.usuarioService.usuario;
-    this.menuItems = this.sidebarService.menu;
+    // this.menuItems = this.sidebarService.menu;
   }
 
   get imagenUrl(): string {
@@ -40,7 +39,7 @@ export class Sidebar {
     // retry simple para Google
     if (img.src.includes('googleusercontent') && !img.dataset.retry) {
       img.dataset.retry = 'true';
-      setTimeout(() => img.src = img.src, 200);
+      setTimeout(() => (img.src = img.src), 200);
       return;
     }
 

@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CargarUsuarioResponse } from '../interfaces/cargar-usuarios.interface';
 import { enviroment } from '../../environments/enviroments';
 import { map } from 'rxjs';
 import { UsuarioModel } from '../models/usuario.model';
@@ -37,6 +36,12 @@ export class Busquedas {
   }
   private transformarMedicos(resultados: any[]): MedicosModel[] {
     return resultados;
+  }
+
+  busquedaGlobal(termino: string) {
+    const url = `${base_url}/todo/${termino}`;
+
+    return this.http.get(url, this.headers);
   }
 
   buscar<T>(tipo: 'usuarios' | 'medicos' | 'hospitales', termino: string = '') {

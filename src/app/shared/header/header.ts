@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Usuario } from '../../services/usuario.service';
 import { UsuarioModel } from '../../models/usuario.model'; // ajustá ruta
 import { enviroment } from '../../../environments/enviroments';
@@ -11,13 +11,15 @@ const base_url = enviroment.base_url;
   standalone: true,
   templateUrl: './header.html',
   styles: ``,
-  imports: [RouterLink, RouterLinkActive]
+  imports: [RouterLink, RouterLinkActive],
 })
 export class Header {
-
   public usuario!: UsuarioModel;
 
-  constructor(private usuarioService: Usuario) {
+  constructor(
+    private usuarioService: Usuario,
+    private router: Router,
+  ) {
     this.usuario = this.usuarioService.usuario;
   }
 
@@ -32,7 +34,7 @@ export class Header {
 
     if (img.src.includes('googleusercontent') && !img.dataset.retry) {
       img.dataset.retry = 'true';
-      setTimeout(() => img.src = img.src, 200);
+      setTimeout(() => (img.src = img.src), 200);
       return;
     }
 
@@ -41,5 +43,14 @@ export class Header {
 
   logout() {
     this.usuarioService.logout();
+  }
+
+  buscar(termino: string) {
+    if (termino.length === 0) {
+      return;
+    }
+
+    console.log(termino);
+    this.router.navigateByUrl(`/dashboard/buscar/${termino}`);
   }
 }

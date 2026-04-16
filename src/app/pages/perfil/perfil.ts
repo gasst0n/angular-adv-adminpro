@@ -108,7 +108,7 @@ export class Perfil implements OnInit, OnDestroy {
   private reiniciarVista(): void {
     this.router
       .navigateByUrl('/', { skipLocationChange: true })
-      .then(() => this.router.navigate(['/perfil']));
+      .then(() => this.router.navigate(['/dashboard/perfil']));
   }
 
   ngOnDestroy(): void {

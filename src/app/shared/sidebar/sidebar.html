@@ -1,26 +1,36 @@
 <!-- Left Sidebar -->
 <aside class="left-sidebar">
   <div class="scroll-sidebar">
-
     <!-- Sidebar navigation -->
     <nav class="sidebar-nav">
       <ul id="sidebarnav">
-
         <!-- PERFIL -->
         <li class="user-profile">
           <!-- Este anchor solo expande/cierra el submenú -->
-          <a class="has-arrow waves-effect waves-dark"
-             href="javascript:void(0)"
-             aria-expanded="false">
-            <img [src]="usuario.imagenURL" (error)="onImgError($event)" referrerpolicy="no-referrer" alt="user" />
-            <span class="hide-menu">{{usuario.nombre}}</span>
+          <a
+            class="has-arrow waves-effect waves-dark"
+            href="javascript:void(0)"
+            aria-expanded="false"
+          >
+            <img
+              [src]="usuario.imagenURL"
+              (error)="onImgError($event)"
+              referrerpolicy="no-referrer"
+              alt="user"
+            />
+            <span class="hide-menu">{{ usuario.nombre }}</span>
           </a>
 
           <!-- Submenú del perfil -->
           <ul aria-expanded="false" class="collapse">
-            <li><a routerLink="/dashboard/perfil"
+            <li>
+              <a
+                routerLink="/dashboard/perfil"
                 routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }">Mi Perfil</a></li>
+                [routerLinkActiveOptions]="{ exact: true }"
+                >Mi Perfil</a
+              >
+            </li>
             <li><a href="javascript:void(0)">My Balance</a></li>
             <li><a href="javascript:void(0)">Inbox</a></li>
 
@@ -28,7 +38,8 @@
               <a
                 routerLink="/dashboard/account-settings"
                 routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }">
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
                 Account Settings
               </a>
             </li>
@@ -42,15 +53,18 @@
         <li class="nav-small-cap">PERSONAL</li>
 
         <!-- MENÚ DINÁMICO -->
-        <li *ngFor="let item of menuItems"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: false }">
-
+        <li
+          *ngFor="let item of sidebarService.menu"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: false }"
+        >
           <!-- Toggle del submenu -->
-          <a class="has-arrow waves-effect waves-dark"
-             href="javascript:void(0)"
-             aria-expanded="false">
-            <i class="{{item.icono}}"></i>
+          <a
+            class="has-arrow waves-effect waves-dark"
+            href="javascript:void(0)"
+            aria-expanded="false"
+          >
+            <i class="{{ item.icono }}"></i>
             <span class="hide-menu">
               {{ item.titulo }}
             </span>
@@ -62,16 +76,15 @@
               <a
                 [routerLink]="sub.url"
                 routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }">
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
                 {{ sub.titulo }}
               </a>
             </li>
           </ul>
         </li>
-
       </ul>
     </nav>
     <!-- End Sidebar navigation -->
-
   </div>
 </aside>

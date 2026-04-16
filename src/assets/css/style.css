@@ -8001,9 +8001,9 @@ body[data-theme='red'] .topbar {
 }
 
 .w100 {
-  max-width: 400px;
-  width: 400px;
-  height: 400px;
-  border-radius: 4px; /* opcional */
-  display: block;
+  width: 100px;
+}
+
+.w75 {
+  width: 75px;
 }
