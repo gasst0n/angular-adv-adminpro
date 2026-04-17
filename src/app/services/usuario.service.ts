@@ -10,10 +10,11 @@ import { enviroment } from '../../environments/enviroments';
 
 declare const google: any;
 
+// URL base del backend (Render / local)
 const base_url = enviroment.base_url;
 
 /**
- * Respuesta genérica del backend
+ * Respuesta genérica del backend para auth
  */
 interface ApiAuthResponse {
   ok?: boolean;
@@ -65,7 +66,8 @@ export class Usuario {
   }
 
   /**
-   * Emite usuario dentro de Angular Zone
+   * Emite el usuario dentro de Angular Zone
+   * (evita problemas de detección de cambios)
    */
   private emitirUsuario(usuario: UsuarioModel | null): void {
     this.ngZone.run(() => {
@@ -77,24 +79,37 @@ export class Usuario {
      AUTH
      =========================== */
 
-  login(formData: RegisterForm): Observable<ApiAuthResponse> {
+  /**
+   * ✅ LOGIN NORMAL
+   * Recibe SOLO email y password
+   */
+  login(data: { email: string; password: string }): Observable<ApiAuthResponse> {
     return this.http
-      .post<ApiAuthResponse>(`${base_url}/login`, formData)
+      .post<ApiAuthResponse>(`${base_url}/login`, data)
       .pipe(tap((resp) => this.procesarAuth(resp)));
   }
 
+  /**
+   * ✅ LOGIN CON GOOGLE
+   */
   loginGoogle(token: string): Observable<ApiAuthResponse> {
     return this.http
       .post<ApiAuthResponse>(`${base_url}/login/google`, { token })
       .pipe(tap((resp) => this.procesarAuth(resp)));
   }
 
+  /**
+   * ✅ REGISTRO
+   */
   crearUsuario(formData: RegisterForm): Observable<ApiAuthResponse> {
     return this.http
       .post<ApiAuthResponse>(`${base_url}/usuarios`, formData)
       .pipe(tap((resp) => this.procesarAuth(resp)));
   }
 
+  /**
+   * ✅ RENOVAR TOKEN
+   */
   validarToken(): Observable<boolean> {
     return this.http.get<ApiAuthResponse>(`${base_url}/login/renew`, this.headers).pipe(
       tap((resp) => this.procesarAuth(resp)),
@@ -103,6 +118,9 @@ export class Usuario {
     );
   }
 
+  /**
+   * ✅ LOGOUT
+   */
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('menu');
@@ -112,7 +130,6 @@ export class Usuario {
     } catch {}
 
     this.emitirUsuario(null);
-
     this.router.navigateByUrl('/login');
   }
 
@@ -156,6 +173,7 @@ export class Usuario {
 
   /**
    * Procesa login / register / renew
+   * Guarda token, menú y usuario en memoria
    */
   private procesarAuth(resp: ApiAuthResponse): void {
     if (resp?.token) {
@@ -171,4 +189,3 @@ export class Usuario {
     }
   }
 }
-``;

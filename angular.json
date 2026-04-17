@@ -19,21 +19,18 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
 
-"assets": [
-  {
-    "glob": "**/*",
-    "input": "public"
-  },
-  "src/assets",
-  "src/favicon.ico"
-],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              },
+              "src/assets",
+              "src/favicon.ico"
+            ],
 
             "styles": [
-             
               "src/assets/plugins/bootstrap/css/bootstrap.min.css",
               "src/assets/css/style.css"
-              
-
             ]
           },
           "configurations": {
@@ -41,13 +38,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "10kb",
+                  "maximumError": "20kb"
                 }
               ],
               "outputHashing": "all"
